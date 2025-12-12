@@ -1,6 +1,4 @@
 syntax = "proto3";
 package shared;
 
-option go_package = "github.com/yourorg/shared/local/sharedpb;sharedpb";
-
-message Empty {}
+option go_package = "shared.local/sharedpb;sharedpb";
