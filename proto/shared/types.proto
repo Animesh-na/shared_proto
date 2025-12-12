@@ -1,6 +1,6 @@
 syntax = "proto3";
 package shared;
 
-option go_package = "shared";
+option go_package = "shared_proto/shared;shared";
 
 message Empty {}
