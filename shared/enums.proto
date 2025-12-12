@@ -1,0 +1,19 @@
+syntax = "proto3";
+package shared;
+
+option go_package = "github.com/yourorg/proto-shared/shared;shared";
+
+enum OrderStatus {
+  ORDER_UNKNOWN = 0;
+  ORDER_CREATED = 1;
+  ORDER_PROCESSING = 2;
+  ORDER_COMPLETED = 3;
+  ORDER_CANCELLED = 4;
+}
+
+enum ErrorCode {
+  ERR_UNKNOWN = 0;
+  ERR_NOT_FOUND = 1;
+  ERR_UNAUTHORIZED = 2;
+  ERR_INVALID_ARGUMENT = 3;
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+package shared;
+
+option go_package = "github.com/yourorg/proto-shared/shared;shared";
+
+message Pagination {
+  int32 page = 1;
+  int32 limit = 2;
+}
+
+message UserContext {
+  string id = 1;
+  string role = 2;
+  string email = 3;
+}

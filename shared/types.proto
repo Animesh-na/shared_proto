@@ -1,0 +1,6 @@
+syntax = "proto3";
+package shared;
+
+option go_package = "github.com/yourorg/proto-shared/shared;shared";
+
+message Empty {}
