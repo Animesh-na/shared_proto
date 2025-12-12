@@ -1,7 +1,7 @@
 syntax = "proto3";
 package shared;
 
-option go_package = "github.com/yourorg/proto-shared/shared;shared";
+option go_package = "shared";
 
 enum OrderStatus {
   ORDER_UNKNOWN = 0;
