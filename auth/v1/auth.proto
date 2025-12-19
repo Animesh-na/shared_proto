@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package auth.v1;
+
+import "google/api/annotations.proto";
+import "common/v1/types.proto";
+
+option go_package = "github.com/Animesh-na/shared_proto/auth/v1;authpb";
+
+service AuthService {
+  rpc Login(LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {
+      post: "/auth/login"
+      body: "*"
+    };
+  }
+
+  rpc ValidateToken(ValidateRequest) returns (ValidateResponse) {
+    option (google.api.http) = {
+      post: "/auth/validate"
+      body: "*"
+    };
+  }
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string token = 1;
+  common.v1.UserContext user = 2;
+}
+
+message ValidateRequest {
+  string token = 1;
+}
+
+message ValidateResponse {
+  bool valid = 1;
+  common.v1.UserContext user = 2;
+}

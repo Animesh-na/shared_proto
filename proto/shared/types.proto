@@ -1,4 +1,0 @@
-syntax = "proto3";
-package shared;
-
-option go_package = "shared.local/sharedpb;sharedpb";
