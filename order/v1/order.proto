@@ -1,0 +1,29 @@
+syntax = "proto3";
+package order;
+
+option go_package = "github.com/Animesh-na/shared_proto/proto;orderpb";
+
+service OrderService {
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+  rpc GetOrder(GetOrderRequest) returns (Order);
+}
+
+message CreateOrderRequest {
+  string user_id = 1;
+  repeated string items = 2;
+}
+
+message CreateOrderResponse {
+  string id = 1;
+}
+
+message GetOrderRequest {
+  string id = 1;
+}
+
+message Order {
+  string id = 1;
+  string user_id = 2;
+  shared.OrderStatus status = 3;
+  repeated string items = 4;
+}
