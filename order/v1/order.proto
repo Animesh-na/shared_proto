@@ -1,7 +1,7 @@
 syntax = "proto3";
 package order;
 
-option go_package = "github.com/Animesh-na/shared_proto/proto;orderpb";
+option go_package = "github.com/Animesh-na/shared_proto/v1/proto;orderpb";
 
 service OrderService {
   rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
