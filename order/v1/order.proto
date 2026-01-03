@@ -5,26 +5,138 @@ package order.v1;
 option go_package = "order/v1;orderpb";
 
 service OrderService {
+
+  // 🔹 Async order estimation
+  rpc EstimateOrder(EstimateOrderRequest) returns (EstimateOrderResponse);
+
+  // 🔹 Final order execution (future)
   rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
-  rpc GetOrder(GetOrderRequest) returns (Order);
 }
 
+/* =======================
+   Async Estimation
+   ======================= */
+
+message EstimateOrderRequest {
+  string order_category = 1;
+  string callback_url = 2; // REQUIRED
+  double order_amount = 3;
+  Pickup pickup = 4;
+  Drop drop = 5;
+  repeated OrderItem order_items = 6;
+  OndcPayloadDetails ondc_payload_details = 7;
+  string order_type = 8; // intercity / hyperlocal
+}
+
+message EstimateOrderResponse {
+  string estimation_request_id = 1; // UUID
+  string status = 2; // ESTIMATE
+}
+
+/* =======================
+   Webhook Payload
+   ======================= */
+
+message EstimateOrderWebhookPayload {
+  string estimation_request_id = 1;
+  string order_category = 2;
+  double estimated_price = 3;
+  int32 estimated_tat_minutes = 4;
+  string currency = 5;
+  PriceBreakup price_breakup = 6;
+  string status = 7; // SUCCESS / FAILED
+  string failure_reason = 8;
+}
+
+/* =======================
+   (Future) Order Creation
+   ======================= */
+
 message CreateOrderRequest {
-  string user_id = 1;
-  repeated string items = 2;
+  string estimation_request_id = 1;
 }
 
 message CreateOrderResponse {
-  string id = 1;
+  string order_id = 1; // UUID
+  string status = 2;
 }
 
-message GetOrderRequest {
-  string id = 1;
+/* =======================
+   Common Models
+   ======================= */
+
+message Pickup {
+  double lat = 1;
+  double lng = 2;
+  string name = 3;
+  string line1 = 4;
+  string line2 = 5;
+  string city = 6;
+  string state = 7;
+  string pincode = 8;
+  string phone = 9;
+  string email = 10;
+  string store_name = 11;
+  string pickup_instructions = 12;
+  string contact_person = 13;
 }
 
-message Order {
-  string id = 1;
-  string user_id = 2;
-  string status = 3;
-  repeated string items = 4;
+message Drop {
+  double lat = 1;
+  double lng = 2;
+  string name = 3;
+  string customer_name = 4;
+  string line1 = 5;
+  string line2 = 6;
+  string city = 7;
+  string state = 8;
+  string pincode = 9;
+  string phone = 10;
+  string email = 11;
+  string drop_instructions = 12;
+}
+
+message OrderItem {
+  string name = 1;
+  int32 qty = 2;
+  string unit = 3;
+  double price = 4;
+}
+
+/* =======================
+   ONDC / Logistics
+   ======================= */
+
+message OndcPayloadDetails {
+  Dimensions dimensions = 1;
+  Weight weight = 2;
+  bool dangerous_goods = 3;
+}
+
+message Dimensions {
+  Measure length = 1;
+  Measure breadth = 2;
+  Measure height = 3;
+}
+
+message Measure {
+  double value = 1;
+  string unit = 2;
+}
+
+message Weight {
+  double value = 1;
+  string unit = 2;
+}
+
+/* =======================
+   Price Breakup
+   ======================= */
+
+message PriceBreakup {
+  double base_fare = 1;
+  double distance_charge = 2;
+  double weight_charge = 3;
+  double platform_fee = 4;
+  double gst = 5;
 }
